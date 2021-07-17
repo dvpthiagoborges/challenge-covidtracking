@@ -1,0 +1,7 @@
+Migration Context Data
+Add-Migration "NomeMigration" -Project BoxTI.Challenge.CovidTracking.Data -Context CovidTrackingContext
+Update-Database -Project BoxTI.Challenge.CovidTracking.Data -Context CovidTrackingContext -Verbose
+
+Migration Identity
+Add-Migration "NomeMigration" -Project BoxTI.Challenge.CovidTracking.CrossCutting.Identity -Context CovidTrackingContextIdentity
+Update-Database -Project BoxTI.Challenge.CovidTracking.CrossCutting.Identity -Context CovidTrackingContextIdentity -Verbose

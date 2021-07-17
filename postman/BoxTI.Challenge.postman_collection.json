@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "70ecd1e7-fb39-47d4-9e3c-ed97c59005ec",
+		"name": "BoxTI.Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API.Challenge",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Sign In",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if(responseCode.code >= 200 && responseCode.code <= 299) {\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.environment.set(\"token\", jsonData.data.accessToken);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dev.thiagoborges@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-api}}/v1/auth/login",
+									"host": [
+										"{{url-api}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register New User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Thiago Borges\",\r\n    \"email\": \"dev.thiagoborges@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-api}}/v1/auth/register-user",
+									"host": [
+										"{{url-api}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"register-user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CovidTracking",
+					"item": [
+						{
+							"name": "All Data",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/v1/info-covid",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"v1",
+										"info-covid"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By Country",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/v1/info-covid/by-country?country=Brazil",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"v1",
+										"info-covid",
+										"by-country"
+									],
+									"query": [
+										{
+											"key": "country",
+											"value": "Brazil"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/v1/info-covid/add-info",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"v1",
+										"info-covid",
+										"add-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/v1/info-covid/update-info?country=Brazil",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"v1",
+										"info-covid",
+										"update-info"
+									],
+									"query": [
+										{
+											"key": "country",
+											"value": "Brazil"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/api/v1/info-covid/delete-info?country=Brazil",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api",
+										"v1",
+										"info-covid",
+										"delete-info"
+									],
+									"query": [
+										{
+											"key": "country",
+											"value": "Brazil"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API.Covid.Public",
+			"item": [
+				{
+					"name": "GET Brazil",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-key",
+								"value": "27a8a51e73mshb56ce7441cf679cp1cc3b1jsn492bbef14582",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-host",
+								"value": "covid-19-tracking.p.rapidapi.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://covid-19-tracking.p.rapidapi.com/v1/brazil",
+							"protocol": "https",
+							"host": [
+								"covid-19-tracking",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"v1",
+								"brazil"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

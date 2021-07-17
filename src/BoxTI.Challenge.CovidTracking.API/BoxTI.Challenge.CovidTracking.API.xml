@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BoxTI.Challenge.CovidTracking.API</name>
+    </assembly>
+    <members>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.AuthController.SignIn(BoxTI.Challenge.CovidTracking.CrossCutting.Identity.Models.AccountViewModels.LoginViewModel)">
+            <summary>
+            Logar na aplicação.
+            </summary>
+            <param name="viewmodel">View Model de Login.</param>
+            <returns>Resultado da operação.</returns>
+            <remarks>
+            Exemplo de requisição
+            
+                POST /api/v1/auth/login
+                {
+                    "email": "dev.thiagoborges@gmail.com",
+                    "password": "123546"
+                }
+                
+            </remarks>
+            <response code="200">Login realizado com sucesso.</response>
+            <response code="400">Não foi possível realizar o login.</response>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.AuthController.RegisterNewUser(BoxTI.Challenge.CovidTracking.CrossCutting.Identity.Models.AccountViewModels.RegisterViewModel)">
+            <summary>
+            Registrar um novo usuário.
+            </summary>
+            <param name="viewmodel">View Model de Usuario.</param>
+            <returns>Resultado da operação.</returns>
+            <remarks>
+            Exemplo de requisição
+            
+                POST /api/v1/auth/register-user
+                {
+                    "name": "Thiago",
+                    "email": "dev.thiagoborges@gmail.com",
+                    "password": "123546",
+                    "confirmPassword": "123456"
+                }
+                
+            </remarks>
+            <response code="201">Novo usuário cadastrado com sucesso.</response>
+            <response code="400">Não foi possível realizar o cadastro do usuário.</response>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.InfoCovidController.GetAllInfo(System.Boolean)">
+            <summary>
+            Retorna as informações de todos os países da lista de requisitos
+            </summary>
+            <param name="orderedListByCases">Indica se a consulta retornará uma lista ordenada por número de casos</param>
+            <returns></returns>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.InfoCovidController.GetInfoByCountry(System.String)">
+            <summary>
+            Retorna as informações de um país específico
+            </summary>
+            <param name="country">Nome do país</param>
+            <returns></returns>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.InfoCovidController.AddInfoAllCountries">
+            <summary>
+            Adiciona as informações de todos os países da lista de requisitos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.InfoCovidController.UpdateInfoByCountry(System.String)">
+            <summary>
+            Atualiza as informações de um país específico
+            </summary>
+            <param name="country">Nome do país</param>
+            <returns></returns>
+        </member>
+        <member name="M:BoxTI.Challenge.CovidTracking.API.V1.InfoCovidController.DeleteInfoByCountry(System.String)">
+            <summary>
+            Executa a exclusão lógica do registro de um país específico
+            </summary>
+            <param name="country">Nome do país</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
