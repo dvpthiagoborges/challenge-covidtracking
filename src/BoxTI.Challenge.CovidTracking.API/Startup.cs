@@ -34,6 +34,8 @@ namespace BoxTI.Challenge.CovidTracking.API
             // WebAPI Config
             services.AddControllers();
 
+            services.AddHttpClient();
+
             // AutoMapper Settings
             services.AddAutoMapperSetup();
 

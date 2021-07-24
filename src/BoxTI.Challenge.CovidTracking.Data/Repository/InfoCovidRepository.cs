@@ -27,7 +27,7 @@ namespace BoxTI.Challenge.CovidTracking.Data.Repository
 
         public async Task<List<InfoCovid>> OrderByTotalCases()
         {
-            return await _db.InfoCovid.AsNoTracking().OrderByDescending(e => e.TotalCases).ToListAsync();
+            return await _db.InfoCovid.AsNoTracking().OrderByDescending(e => e.ActiveCases).ToListAsync();
         }
     }
 }

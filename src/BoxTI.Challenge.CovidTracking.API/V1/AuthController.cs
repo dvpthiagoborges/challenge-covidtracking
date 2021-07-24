@@ -30,7 +30,6 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
                               IUser appUser,
                               UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
-                              RoleManager<ApplicationRole> roleManager,
                               IOptions<AppSettings> appSettings) : base(notifier, appUser)
         {
             _userManager = userManager;
@@ -39,12 +38,12 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         }
 
         /// <summary>
-        /// Logar na aplicação.
+        /// Application login.
         /// </summary>
-        /// <param name="viewmodel">View Model de Login.</param>
-        /// <returns>Resultado da operação.</returns>
+        /// <param name="viewmodel">Login View Model.</param>
+        /// <returns>Operation result.</returns>
         /// <remarks>
-        /// Exemplo de requisição
+        /// Request example
         /// 
         ///     POST /api/v1/auth/login
         ///     {
@@ -53,8 +52,6 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         ///     }
         ///     
         /// </remarks>
-        /// <response code="200">Login realizado com sucesso.</response>
-        /// <response code="400">Não foi possível realizar o login.</response>
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] LoginViewModel viewmodel)
@@ -66,12 +63,12 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         }
 
         /// <summary>
-        /// Registrar um novo usuário.
+        /// Register a new user.
         /// </summary>
-        /// <param name="viewmodel">View Model de Usuario.</param>
-        /// <returns>Resultado da operação.</returns>
+        /// <param name="viewmodel">User View Model.</param>
+        /// <returns>Operation result.</returns>
         /// <remarks>
-        /// Exemplo de requisição
+        /// Request example
         /// 
         ///     POST /api/v1/auth/register-user
         ///     {
@@ -82,21 +79,19 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         ///     }
         ///     
         /// </remarks>
-        /// <response code="201">Novo usuário cadastrado com sucesso.</response>
-        /// <response code="400">Não foi possível realizar o cadastro do usuário.</response>
         [HttpPost("register-user")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterNewUser([FromBody] RegisterViewModel viewmodel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var usuarioRegistrado = await RegisterUser(viewmodel);
-            if (!usuarioRegistrado)
+            var userRegistered = await RegisterUser(viewmodel);
+            if (!userRegistered)
             {
-                return CustomResponse(string.Format("Não foi possível criar o usuário {0}.", viewmodel.Email));
+                return CustomResponse(string.Format("It was not possible to create the user {0}.", viewmodel.Email));
             }
 
-            return CustomResponse(new { message = "Usuário registrado com sucesso"});
+            return CustomResponse(new { message = "User registered successfully" });
         }
 
         private async Task<IActionResult> Login(LoginViewModel viewmodel)
@@ -114,18 +109,18 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
 
                     if (result.IsLockedOut)
                     {
-                        NotifyError("Usuário temporariamente bloqueado por tentativas inválidas");
+                        NotifyError("User temporarily blocked by invalid attempts.");
                         return CustomResponse(viewmodel);
                     }
                 }
                 else
                 {
-                    NotifyError("Você precisa confirmar o seu e-mail antes de fazer o login. Caso não encontre nosso link, verifique sua caixa de SPAM e outros filtros de e-mail.");
+                    NotifyError("You need to confirm your email before logging in. If you can't find our link, please check your SPAM box and other email filters.");
                     return CustomResponse(viewmodel);
                 }
             }
 
-            NotifyError("Usuário ou Senha incorretos");
+            NotifyError("Incorrect username or password.");
             return CustomResponse(viewmodel);
         }
 
@@ -145,7 +140,7 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
 
             if (!result.Succeeded)
             {
-                AdicionarErrosIdentity(result);
+                InsertErrorsIdentity(result);
                 return false;
             }
 

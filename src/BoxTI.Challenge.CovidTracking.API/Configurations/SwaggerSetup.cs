@@ -20,13 +20,13 @@ namespace BoxTI.Challenge.CovidTracking.API.Configurations
                 {
                     Version = "v1",
                     Title = "BoxTI Challenge - Covid Tracking",
-                    Description = "Documentação da API Covid Tracking",
+                    Description = "Covid Tracking API Documentation",
                     Contact = new OpenApiContact { Name = "Thiago Borges - Linkedin", Email = "dev.thiagoborges@gmail.com", Url = new Uri("https://www.linkedin.com/in/thiago-borges-de-oliveira-845845188/") }
                 });
 
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "Insira o token JWT desta maneira: Bearer {seu token}",
+                    Description = "Enter the JWT token like this: Bearer {your token}",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
@@ -52,11 +52,11 @@ namespace BoxTI.Challenge.CovidTracking.API.Configurations
                     }
                 });
 
-                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc = System.IO.Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
+                string pathApp = PlatformServices.Default.Application.ApplicationBasePath;
+                string nameApp = PlatformServices.Default.Application.ApplicationName;
+                string pathXmlDoc = System.IO.Path.Combine(pathApp, $"{nameApp}.xml");
 
-                s.IncludeXmlComments(caminhoXmlDoc);
+                s.IncludeXmlComments(pathXmlDoc);
             });
         }
 
