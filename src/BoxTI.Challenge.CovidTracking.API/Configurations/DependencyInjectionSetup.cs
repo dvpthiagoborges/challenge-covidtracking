@@ -5,6 +5,8 @@ using BoxTI.Challenge.CovidTracking.Data.Context;
 using BoxTI.Challenge.CovidTracking.Data.Repository;
 using BoxTI.Challenge.CovidTracking.Data.Repository.Interfaces;
 using BoxTI.Challenge.CovidTracking.ExternalData.Interfaces;
+using BoxTI.Challenge.CovidTracking.Models.ImportExport.Interfaces;
+using BoxTI.Challenge.CovidTracking.Models.ImportExport.Services;
 using BoxTI.Challenge.CovidTracking.Services.Interfaces;
 using BoxTI.Challenge.CovidTracking.Services.Notifications;
 using BoxTI.Challenge.CovidTracking.Services.Notifications.Interfaces;
@@ -32,14 +34,13 @@ namespace BoxTI.Challenge.CovidTracking.API.Configurations
             // ContextIdentity
             services.AddScoped<CovidTrackingContextIdentity>();
 
-            // Repository
+            // Repositorys
             services.AddScoped<IInfoCovidRepository, InfoCovidRepository>();
 
-            // Service
+            // Services
             services.AddScoped<IInfoCovidService, InfoCovidService>();
-
-            // External Service
             services.AddScoped<ICovidTrackingService, CovidTrackingService>();
+            services.AddScoped<IImportExportService, ImportExportService>();
 
             services.AddScoped<IUser, AspNetUser>();
         }

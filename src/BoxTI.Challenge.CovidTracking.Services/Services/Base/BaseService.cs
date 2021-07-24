@@ -21,14 +21,14 @@ namespace BoxTI.Challenge.CovidTracking.Services.Services.Base
             }
         }
 
-        protected void Notify(string mensagem)
+        protected void Notify(string message)
         {
-            _notifier.Handle(new Notification(mensagem));
+            _notifier.Handle(new Notification(message));
         }
 
-        protected void Notify(string mensagem, params object[] parametros)
+        protected void Notify(string message, params object[] parameters)
         {
-            _notifier.Handle(new Notification(string.Format(mensagem, parametros)));
+            _notifier.Handle(new Notification(string.Format(message, parameters)));
         }        
     }
 }

@@ -13,6 +13,7 @@ namespace BoxTI.Challenge.CovidTracking.Services.ViewModel
         public int TotalCases { get; set; }
         public int TotalDeaths { get; set; }
         public int TotalRecovered { get; set; }
+        public string PercentageDifference { get; set; }
         public bool Active { get; set; }
     }
 }

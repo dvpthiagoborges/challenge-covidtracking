@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BoxTI.Challenge.CovidTracking.API.Controllers.Base;
 using BoxTI.Challenge.CovidTracking.CrossCutting.Identity.Base;
+using BoxTI.Challenge.CovidTracking.Models.ImportExport.Interfaces;
 using BoxTI.Challenge.CovidTracking.Services.Interfaces;
 using BoxTI.Challenge.CovidTracking.Services.Notifications.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -16,21 +17,21 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
     public class InfoCovidController : BaseController
     {
         private readonly IInfoCovidService _infoCovidService;
-        private readonly IMapper _mapper;
+        private readonly IImportExportService _importExportService;
 
         public InfoCovidController(INotifier notifier,
                                    IUser appUser,
-                                   IInfoCovidService infoCovidService, 
-                                   IMapper mapper) : base(notifier, appUser)
+                                   IInfoCovidService infoCovidService,
+                                   IImportExportService importExportService) : base(notifier, appUser)
         {
             _infoCovidService = infoCovidService;
-            _mapper = mapper;
+            _importExportService = importExportService;
         }
 
         /// <summary>
-        /// Retorna as informações de todos os países da lista de requisitos
+        /// Returns information for all countries in the requirements list.
         /// </summary>
-        /// <param name="orderedListByCases">Indica se a consulta retornará uma lista ordenada por número de casos</param>
+        /// <param name="orderedListByCases">Enter true for the query to return a list ordered by number of cases.</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllInfo([FromQuery] bool orderedListByCases)
@@ -40,9 +41,9 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         }
 
         /// <summary>
-        /// Retorna as informações de um país específico
+        /// Returns information for a specific country.
         /// </summary>
-        /// <param name="country">Nome do país</param>
+        /// <param name="country">Country name</param>
         /// <returns></returns>
         [HttpGet("by-country")]
         public async Task<IActionResult> GetInfoByCountry([FromQuery] string country)
@@ -54,7 +55,7 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
         }
 
         /// <summary>
-        /// Adiciona as informações de todos os países da lista de requisitos
+        /// Adds information for all countries from the requirements list.
         /// </summary>
         /// <returns></returns>
         [HttpPost("add-info")]
@@ -63,16 +64,16 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
             var result = await _infoCovidService.SaveInfo();
             if (result)
             {
-                return CustomResponse(new { message = "As informações foram salvas na base de dados com sucesso"});
+                return CustomResponse(new { message = "The information was successfully saved to the database." });
             }
 
             return CustomResponse();
         }
 
         /// <summary>
-        /// Atualiza as informações de um país específico
+        /// Updates the information for a specific country.
         /// </summary>
-        /// <param name="country">Nome do país</param>
+        /// <param name="country">Country name</param>
         /// <returns></returns>
         [HttpPut("update-info")]
         public async Task<IActionResult> UpdateInfoByCountry([FromQuery] string country)
@@ -80,16 +81,16 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
             var result = await _infoCovidService.UpdateInfo(country);
             if (result)
             {
-                return CustomResponse(new { message = "As informações do país foram atualizadas com sucesso" });
+                return CustomResponse(new { message = "Country information has been successfully updated." });
             }
 
             return CustomResponse();
         }
 
         /// <summary>
-        /// Executa a exclusão lógica do registro de um país específico
+        /// Executes logical record deletion for a specific country.
         /// </summary>
-        /// <param name="country">Nome do país</param>
+        /// <param name="country">Country name</param>
         /// <returns></returns>
         [HttpDelete("delete-info")]
         public async Task<IActionResult> DeleteInfoByCountry([FromQuery] string country)
@@ -97,10 +98,26 @@ namespace BoxTI.Challenge.CovidTracking.API.V1
             var result = await _infoCovidService.DeleteInfo(country);
             if (result)
             {
-                return CustomResponse(new { message = "Registro do país inativado com sucesso" });
+                return CustomResponse(new { message = "Country registration successfully inactivated." });
             }
 
             return CustomResponse();
+        }
+
+        /// <summary>
+        /// Returns csv file with data for a specific country.
+        /// </summary>
+        /// <param name="country">Country name</param>
+        /// <returns></returns>
+        [HttpGet("export-csv")]
+        public async Task<IActionResult> ExportDataCsv([FromQuery] string country)
+        {
+            var viewModel = await _infoCovidService.GetInfoByCountry(country);
+            if (viewModel == null) return NotFound();
+
+            var file = await _importExportService.ExportFileCSV(viewModel);
+
+            return CustomResponse(file);
         }
     }
 }

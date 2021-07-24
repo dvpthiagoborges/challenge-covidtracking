@@ -31,6 +31,7 @@
     <ProjectReference Include="..\BoxTI.Challenge.CovidTracking.CrossCutting.Identity\BoxTI.Challenge.CovidTracking.CrossCutting.Identity.csproj" />
     <ProjectReference Include="..\BoxTI.Challenge.CovidTracking.Data\BoxTI.Challenge.CovidTracking.Data.csproj" />
     <ProjectReference Include="..\BoxTI.Challenge.CovidTracking.ExternalData\BoxTI.Challenge.CovidTracking.ExternalData.csproj" />
+    <ProjectReference Include="..\BoxTI.Challenge.CovidTracking.Models.ImportExport\BoxTI.Challenge.CovidTracking.Models.ImportExport.csproj" />
     <ProjectReference Include="..\BoxTI.Challenge.CovidTracking.Services\BoxTI.Challenge.CovidTracking.Services.csproj" />
   </ItemGroup>
 

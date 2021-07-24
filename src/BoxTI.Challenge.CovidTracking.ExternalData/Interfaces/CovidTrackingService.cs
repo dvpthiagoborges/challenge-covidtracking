@@ -9,6 +9,13 @@ namespace BoxTI.Challenge.CovidTracking.ExternalData.Interfaces
 {
     public class CovidTrackingService : ICovidTrackingService
     {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public CovidTrackingService(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         public async Task<IEnumerable<InfoCovidExternalViewModel>> GetAllData()
         {
             var action = $"{ExternalDataSettings.Url}/v1";
@@ -29,13 +36,13 @@ namespace BoxTI.Challenge.CovidTracking.ExternalData.Interfaces
 
         private async Task<HttpResponseMessage> ExecuteRequest(string action)
         {
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Add("x-rapidapi-key", ExternalDataSettings.Key);
-                httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", ExternalDataSettings.Host);
+            var httpClient = _httpClientFactory.CreateClient();
 
-                return await httpClient.GetAsync(action);
-            }
+            httpClient.DefaultRequestHeaders.Add("x-rapidapi-key", ExternalDataSettings.Key);
+            httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", ExternalDataSettings.Host);
+
+            return await httpClient.GetAsync(action);
+
         }
     }
 }

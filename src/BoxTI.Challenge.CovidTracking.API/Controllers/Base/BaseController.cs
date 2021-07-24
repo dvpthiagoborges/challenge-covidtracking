@@ -21,14 +21,14 @@ namespace BoxTI.Challenge.CovidTracking.API.Controllers.Base
             AppUser = appUser;
         }
 
-        protected bool InvalidOperation()
+        protected bool ValidOperation()
         {
             return !_notifier.HasNotification();
         }
 
         protected ActionResult CustomResponse(object result = null)
         {
-            if (InvalidOperation())
+            if (ValidOperation())
             {
                 return Ok(new
                 {
@@ -65,7 +65,7 @@ namespace BoxTI.Challenge.CovidTracking.API.Controllers.Base
             _notifier.Handle(new Notification(message));
         }
 
-        protected void AdicionarErrosIdentity(IdentityResult result)
+        protected void InsertErrorsIdentity(IdentityResult result)
         {
             foreach (var error in result.Errors)
             {

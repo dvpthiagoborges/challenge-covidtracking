@@ -107,7 +107,7 @@ namespace BoxTI.Challenge.CovidTracking.Services.Services
                 allInfo = await _infoCovidRepository.OrderByTotalCases();
             }
 
-            return _mapper.Map<List<InfoCovidViewModel>>(allInfo);
+            return CalcPercentageDifference(_mapper.Map<List<InfoCovidViewModel>>(allInfo));
         }
 
         public async Task<InfoCovidViewModel> GetInfoByCountry(string country)
@@ -154,9 +154,34 @@ namespace BoxTI.Challenge.CovidTracking.Services.Services
             viewmodel.TotalRecovered = RemoveMask(viewmodel.TotalRecovered);
         }
 
-        private static string RemoveMask(string maskedValue)
+        private string RemoveMask(string maskedValue)
         {
             return maskedValue.Replace(",", "");
+        }
+
+        private List<InfoCovidViewModel> CalcPercentageDifference(List<InfoCovidViewModel> viewModel)
+        {
+            var returnViewModel = viewModel;
+            decimal? totalCases = 0;
+
+            foreach (var item in viewModel)
+            {
+                if (item.ActiveCases != null)
+                {
+                    totalCases += item.ActiveCases;
+                }
+            }
+
+            foreach (var item in returnViewModel)
+            {
+                if (item.ActiveCases.HasValue)
+                {
+                    decimal? percentage = (item.ActiveCases * 100) / totalCases;
+                    item.PercentageDifference = string.Format("{0}%", decimal.Round(percentage.Value, 2, System.MidpointRounding.AwayFromZero).ToString());
+                }
+            }
+
+            return returnViewModel;
         }
 
         public void Dispose()
